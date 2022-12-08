@@ -25,14 +25,7 @@ public class HealthBar : MonoBehaviour
     {
         float fill = 1;
 
-        if (parentObject.GetComponent<Enemy>())
-        {
-            fill = parentObject.GetComponent<Enemy>().health / parentObject.GetComponent<Enemy>().maxHealth;
-        }
-        else if (parentObject.GetComponent<Tower>())
-        {
-            fill = parentObject.GetComponent<Tower>().health / parentObject.GetComponent<Tower>().maxHealth;
-        }
+        fill = parentObject.GetComponent<Entity>().health / parentObject.GetComponent<Entity>().maxHealth;
 
         return fill;
     }

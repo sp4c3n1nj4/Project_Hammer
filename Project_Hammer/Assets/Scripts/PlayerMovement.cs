@@ -73,18 +73,15 @@ public class PlayerMovement : MonoBehaviour
         hitBox.SetActive(false);
     }
 
-    public void HitBoxEnter(Collider other)
+    public void HitBoxEnter(GameObject other)
     {
-        print("collision");
         if (other.CompareTag("Enemy"))
         {
-            print("enemy hit");
-            other.transform.parent.GetComponent<Enemy>().TakeDamage(damage);
+            other.GetComponent<Enemy>().TakeDamage(damage);
         }
         else if (other.CompareTag("Tower"))
         {
-            print("tower hit");
-            other.transform.parent.GetComponent<Tower>().TakeDamage(-damage);
+            other.GetComponent<Tower>().TakeDamage(-damage);
         }
     }
 }

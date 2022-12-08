@@ -9,6 +9,11 @@ public class PlayerHitBox : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        pl.HitBoxEnter(other);
+        if (other.transform.parent == null)
+            return;
+        if (other.transform.parent.GetComponent<Entity>())
+        {
+            pl.HitBoxEnter(other.transform.parent.gameObject);
+        }       
     }
 }

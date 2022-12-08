@@ -3,54 +3,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tower : MonoBehaviour
+public class Tower : Entity
 {
-    public float health;
-    public float maxHealth;
     public float attackDelay;
     public float attackDuration;
     public float damage;
-    public float range;
-
-    private bool built;
-    private bool engaged;
-    private float attackTimer;
+    public float range = Mathf.Infinity;
 
     [SerializeField]
-    private GameObject HealthBar;
+    private bool built = false;
+    private bool engaged;
+    private float attackTimer = 0;   
 
-    private GameObject bar;
-
-    public void TakeDamage(float _damage)
+    public override void Update()
     {
-        health -= _damage;
-    }
-
-    private void Update()
-    {
-        if (health <= 0)
-        {
-            DestroyTower();
-        }
+        base.Update();
 
         if (!built)
             return;
 
-        DetectEnemies();
+        if (FindClosestEnemy() != null)
+        {
+            TurnTower();
+            DetectEnemies();
+        }
+
         if (attackTimer > 0)
         {
             attackTimer -= Time.deltaTime;
-            if (engaged && attackTimer <= 0)
-            {
-                Attack();
-                attackTimer = attackDelay;
-            }
-        }     
-    }
-
-    private void DestroyTower()
-    {
-        Destroy(gameObject);
+        }
+        else if (engaged && attackTimer <= 0)
+        {
+            Attack();
+            attackTimer = attackDelay;
+        }       
     }
 
     private void DetectEnemies()
@@ -68,21 +54,41 @@ public class Tower : MonoBehaviour
         //get all enemies end return closest game object
         GameObject target = null;
 
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("enemy");
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
         var distance = range;
         for (int i = 0; i < enemies.Length; i++)
         {
-            if (Vector3.Distance(this.transform.position, enemies[i].transform.position) < distance)
+            var dist = Vector3.Distance(this.transform.position, enemies[i].transform.position);
+            if (dist < distance)
+            {
                 target = enemies[i];
+                distance = dist;
+            }                
         }
-
         return target;
     }
 
-    private void BeingBuild()
+    private void TurnTower()
     {
+        if (FindClosestEnemy() == null)
+            return;
 
+        //turn character towards enemy or in movement direction
+        float rotation = TargetEnemy(FindClosestEnemy());
+
+        //slowly turn character towards intended rotation
+        float lerpedRotation = Mathf.LerpAngle(rotation, gameObject.transform.rotation.eulerAngles.y, 0.5f);
+
+        gameObject.transform.rotation = Quaternion.AngleAxis(lerpedRotation, Vector3.up);
+    }
+
+
+    private float TargetEnemy(GameObject target)
+    {
+        //calculate rotation towards target
+        Vector3 targetVector = target.transform.position - this.transform.position;
+        return Mathf.Rad2Deg * Mathf.Atan2(targetVector.x, targetVector.z);
     }
 
     public virtual void Attack()
@@ -90,14 +96,10 @@ public class Tower : MonoBehaviour
         throw new NotImplementedException();
     }
 
-    private void Awake()
+    private void OnDrawGizmos()
     {
-        bar = Instantiate(HealthBar, GameObject.FindGameObjectWithTag("UICanvas").transform);
-        bar.GetComponent<HealthBar>().parentObject = gameObject;
-    }
-
-    private void OnDestroy()
-    {
-        Destroy(bar);
+        Gizmos.color = Color.green;
+        if (FindClosestEnemy() != null)
+            Gizmos.DrawLine(FindClosestEnemy().transform.position, gameObject.transform.position);
     }
 }
