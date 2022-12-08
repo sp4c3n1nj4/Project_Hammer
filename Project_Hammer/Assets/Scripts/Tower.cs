@@ -16,6 +16,11 @@ public class Tower : MonoBehaviour
     private bool engaged;
     private float attackTimer;
 
+    [SerializeField]
+    private GameObject HealthBar;
+
+    private GameObject bar;
+
     public void TakeDamage(float _damage)
     {
         health -= _damage;
@@ -83,5 +88,16 @@ public class Tower : MonoBehaviour
     public virtual void Attack()
     {
         throw new NotImplementedException();
+    }
+
+    private void Awake()
+    {
+        bar = Instantiate(HealthBar, GameObject.FindGameObjectWithTag("UICanvas").transform);
+        bar.GetComponent<HealthBar>().parentObject = gameObject;
+    }
+
+    private void OnDestroy()
+    {
+        Destroy(bar);
     }
 }

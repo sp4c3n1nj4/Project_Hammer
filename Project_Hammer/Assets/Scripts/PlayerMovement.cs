@@ -8,6 +8,14 @@ public class PlayerMovement : MonoBehaviour
     public CharacterController player;
 
     private Vector3 directionInput;
+    private float attackTimer = 0;
+
+    [SerializeField]
+    private float damage = 10f;
+    [SerializeField]
+    private float attackDelay = 0.5f;
+    [SerializeField]
+    private GameObject hitBox;
 
     //update physics of player
     private void FixedUpdate()
@@ -25,6 +33,13 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         directionInput = MovementInput();
+
+        if (attackTimer < 0)
+        {
+            PlayerAttack();
+        }
+        else
+            attackTimer -= Time.deltaTime;
     }
 
     //convert player input to vector3
@@ -40,5 +55,36 @@ public class PlayerMovement : MonoBehaviour
             input = input.normalized;
 
         return input;
+    }
+
+    private void PlayerAttack()
+    {
+        if (Input.GetKey(KeyCode.Mouse0))
+        {
+            attackTimer = attackDelay;
+            StartCoroutine(SpawnAttack());
+        }
+    }
+
+    IEnumerator SpawnAttack()
+    {
+        hitBox.SetActive(true);
+        yield return new WaitForSeconds(0.25f);
+        hitBox.SetActive(false);
+    }
+
+    public void HitBoxEnter(Collider other)
+    {
+        print("collision");
+        if (other.CompareTag("Enemy"))
+        {
+            print("enemy hit");
+            other.transform.parent.GetComponent<Enemy>().TakeDamage(damage);
+        }
+        else if (other.CompareTag("Tower"))
+        {
+            print("tower hit");
+            other.transform.parent.GetComponent<Tower>().TakeDamage(-damage);
+        }
     }
 }

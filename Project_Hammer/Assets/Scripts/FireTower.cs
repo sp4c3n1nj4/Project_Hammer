@@ -20,7 +20,7 @@ public class FireTower : Tower
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("enemy"))
+        if (other.gameObject.CompareTag("Enemy"))
         {
             other.gameObject.GetComponent<Enemy>().TakeDamage(damage);
         }

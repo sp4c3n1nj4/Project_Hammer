@@ -28,22 +28,13 @@ public class PlayerRotation : MonoBehaviour
 
     private float MouseRotation()
     {
-        var vector = new Vector3(Input.mousePosition.x, Input.mousePosition.y, -10f);
-        var point = new Vector3(-_camera.ScreenToWorldPoint(vector).x, 0, -_camera.ScreenToWorldPoint(vector).z);
-        print(point);
-        var angle = Mathf.Atan2(point.x, point.z) * Mathf.Rad2Deg;
+        float angle;
+
+        Vector2 input = new Vector2(Input.mousePosition.y, Input.mousePosition.x) - new Vector2(Screen.height / 2, Screen.width / 2);
+        angle = Mathf.Atan2(input.y, input.x) * Mathf.Rad2Deg;
+        if (angle < 0)
+            angle += 360;
+
         return angle;
-    }
-
-    private void OnDrawGizmos()
-    {
-        var vector = new Vector3(Input.mousePosition.x, Input.mousePosition.y, -10f);
-        var point = new Vector3(-_camera.ScreenToWorldPoint(vector).x, 0, -_camera.ScreenToWorldPoint(vector).z);
-
-        Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(point, 0.5f);
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(gameObject.transform.position, point);
     }
 }
