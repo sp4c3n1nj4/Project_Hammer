@@ -9,7 +9,7 @@ public class PlayerHitBox : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.parent == null)
+        if (other.transform.parent == null || other.isTrigger)
             return;
         if (other.transform.parent.GetComponent<Entity>())
         {

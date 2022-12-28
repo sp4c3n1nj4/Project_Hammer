@@ -14,6 +14,7 @@ public class Enemy : Entity
     public float attackDelay;
     public float attackDuration;
     public float damage;
+    public int gReward;
 
     private float attackTimer = 0;
     private bool engaged;
@@ -91,6 +92,13 @@ public class Enemy : Entity
     public virtual void Attack()
     {
         throw new NotImplementedException();
+    }
+
+    public override void DestroyEntity()
+    {
+        FindObjectOfType<ResourceManager>().AddGold(gReward);
+
+        base.DestroyEntity();
     }
 
     private void OnDrawGizmos()

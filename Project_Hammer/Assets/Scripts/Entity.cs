@@ -28,6 +28,7 @@ public class Entity : MonoBehaviour
     public void TakeDamage(float _damage)
     {
         health -= _damage;
+        health = Mathf.Clamp(health, 0, maxHealth);
     }
 
     private void Awake()

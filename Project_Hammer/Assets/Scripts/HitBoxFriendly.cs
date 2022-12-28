@@ -8,7 +8,7 @@ public class HitBoxFriendly : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Enemy"))
+        if (other.gameObject.CompareTag("Enemy") && !other.isTrigger)
         {
             other.gameObject.GetComponent<Entity>().TakeDamage(twr.damage);
         }

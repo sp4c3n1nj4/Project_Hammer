@@ -260,6 +260,7 @@ MonoBehaviour:
   attackDelay: 3
   attackDuration: 1
   damage: 35
-  range: 10.5
+  range: 10
   built: 1
+  engaged: 0
   hitBox: {fileID: 1746569281}

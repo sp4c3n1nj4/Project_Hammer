@@ -12,6 +12,7 @@ public class Tower : Entity
 
     [SerializeField]
     private bool built = false;
+    [SerializeField]
     private bool engaged;
     private float attackTimer = 0;   
 
@@ -22,11 +23,8 @@ public class Tower : Entity
         if (!built)
             return;
 
-        if (FindClosestEnemy() != null)
-        {
-            TurnTower();
-            DetectEnemies();
-        }
+        TurnTower();
+        DetectEnemies();
 
         if (attackTimer > 0)
         {
@@ -41,7 +39,15 @@ public class Tower : Entity
 
     private void DetectEnemies()
     {
-        var distance = Vector3.Distance(FindClosestEnemy().transform.position, gameObject.transform.position);
+        GameObject closestEnemy = FindClosestEnemy();
+
+        if (closestEnemy == null)
+        {
+            engaged = false;
+            return;
+        }
+
+        var distance = Vector3.Distance(closestEnemy.transform.position, gameObject.transform.position);
 
         if (distance <= range)
             engaged = true;

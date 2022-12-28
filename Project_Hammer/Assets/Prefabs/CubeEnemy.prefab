@@ -130,7 +130,7 @@ Transform:
   - {fileID: 3556149274680412733}
   - {fileID: 3373169740983111315}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &214040561550137382
 MonoBehaviour:
@@ -152,6 +152,7 @@ MonoBehaviour:
   attackDelay: 3
   attackDuration: 0.3
   damage: 10
+  gReward: 1
   hitBox: {fileID: 7144238799885822007}
 --- !u!143 &8714034919945964524
 CharacterController:
