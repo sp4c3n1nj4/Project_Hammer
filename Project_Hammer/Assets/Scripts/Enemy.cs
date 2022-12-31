@@ -96,7 +96,8 @@ public class Enemy : Entity
 
     public override void DestroyEntity()
     {
-        FindObjectOfType<ResourceManager>().AddGold(gReward);
+        if (FindObjectOfType<ResourceManager>())
+            FindObjectOfType<ResourceManager>().AddGold(gReward);
 
         base.DestroyEntity();
     }

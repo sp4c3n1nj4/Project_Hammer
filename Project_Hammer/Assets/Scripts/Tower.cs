@@ -97,6 +97,14 @@ public class Tower : Entity
         return Mathf.Rad2Deg * Mathf.Atan2(targetVector.x, targetVector.z);
     }
 
+    public override void DestroyEntity()
+    {
+        if (transform.parent)
+            transform.parent.gameObject.GetComponent<TowerBase>().enabled = false;
+
+        base.DestroyEntity();
+    }
+
     public virtual void Attack()
     {
         throw new NotImplementedException();

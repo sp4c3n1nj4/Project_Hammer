@@ -33,7 +33,7 @@ public class Entity : MonoBehaviour
 
     private void Awake()
     {
-        bar = Instantiate(HealthBar, GameObject.FindGameObjectWithTag("UICanvas").transform);
+        bar = Instantiate(HealthBar, GameObject.FindGameObjectWithTag("WorldCanvas").transform);
         bar.GetComponent<HealthBar>().parentObject = gameObject;
     }
 
