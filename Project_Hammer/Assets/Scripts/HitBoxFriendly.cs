@@ -10,7 +10,7 @@ public class HitBoxFriendly : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy") && !other.isTrigger)
         {
-            other.gameObject.GetComponent<Entity>().TakeDamage(twr.damage);
+            other.gameObject.GetComponentInParent<Entity>().TakeDamage(twr.damage);
         }
     }
 }

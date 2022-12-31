@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     private float attackTimer = 0;
 
     [SerializeField]
-    private float damage = 10f;
+    public float damage = 10f;
     [SerializeField]
     private float attackDelay = 0.5f;
     [SerializeField]
@@ -71,17 +71,5 @@ public class PlayerMovement : MonoBehaviour
         hitBox.SetActive(true);
         yield return new WaitForSeconds(0.25f);
         hitBox.SetActive(false);
-    }
-
-    public void HitBoxEnter(GameObject other)
-    {
-        if (other.CompareTag("Enemy"))
-        {
-            other.GetComponent<Enemy>().TakeDamage(damage);
-        }
-        else if (other.CompareTag("Tower"))
-        {
-            other.GetComponent<Tower>().TakeDamage(-damage);
-        }
     }
 }

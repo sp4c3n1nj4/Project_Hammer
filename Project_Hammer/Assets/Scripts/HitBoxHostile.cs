@@ -8,9 +8,14 @@ public class HitBoxHostile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if ((other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Tower")) && !other.isTrigger)
+        if (other.gameObject.CompareTag("Player") && !other.isTrigger)
         {
             other.gameObject.GetComponent<Entity>().TakeDamage(enm.damage);
+        }
+
+        if (other.gameObject.CompareTag("Tower") && !other.isTrigger)
+        {
+            other.gameObject.GetComponentInParent<Entity>().TakeDamage(enm.damage);
         }
     }
 }

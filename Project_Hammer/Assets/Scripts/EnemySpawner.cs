@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class EnemySpawner : MonoBehaviour
 {
-    private float timer = 0f;
+    private float timer = 20f;
     private float lastWave = 0f;
+    private int wave = 0;
 
     [SerializeField]
     private float waveDelay;
@@ -16,6 +18,16 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField]
     private GameObject[] enemies;
 
+    [SerializeField]
+    private TextMeshProUGUI timerUI;
+    [SerializeField]
+    private TextMeshProUGUI waveUI;
+
+    private void Start()
+    {
+        waveUI.text = "Wave " + wave.ToString();
+    }
+
     private void Update()
     {
         UpdateTimer();
@@ -25,11 +37,16 @@ public class EnemySpawner : MonoBehaviour
     {
         timer += Time.deltaTime;
 
+        var countdown = System.Math.Round((waveDelay - (timer - lastWave)), 2);
+
+        timerUI.text = "0:" + countdown.ToString() + "s";
+
         if (timer >= lastWave + waveDelay)
         {
             lastWave = timer;
             SpawnWave();
-            //ui here for next wave
+            wave += 1;
+            waveUI.text = "Wave " + wave.ToString();
         }
     }
 

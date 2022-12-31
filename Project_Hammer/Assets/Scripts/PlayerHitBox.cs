@@ -9,11 +9,14 @@ public class PlayerHitBox : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.parent == null || other.isTrigger)
-            return;
-        if (other.transform.parent.GetComponent<Entity>())
+        if (other.gameObject.CompareTag("Enemy") && !other.isTrigger)
         {
-            pl.HitBoxEnter(other.transform.parent.gameObject);
-        }       
+            other.gameObject.GetComponentInParent<Entity>().TakeDamage(pl.damage);
+        }
+
+        if (other.gameObject.CompareTag("Tower") && !other.isTrigger)
+        {
+            other.gameObject.GetComponentInParent<Entity>().TakeDamage(- pl.damage);
+        }
     }
 }

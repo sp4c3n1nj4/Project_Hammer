@@ -100,7 +100,7 @@ public class Tower : Entity
     public override void DestroyEntity()
     {
         if (transform.parent)
-            transform.parent.gameObject.GetComponent<TowerBase>().enabled = false;
+            transform.parent.gameObject.GetComponent<TowerBase>().enabled = true;
 
         base.DestroyEntity();
     }
